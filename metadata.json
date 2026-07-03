@@ -1,0 +1,6 @@
+{
+  "name": "Smart Office IoT Dashboard",
+  "description": "A high-fidelity modern dashboard for monitoring smart office IoT devices, real-time power analytics, floor layout, and AI occupancy sensors.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
