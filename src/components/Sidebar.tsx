@@ -14,8 +14,7 @@ import {
   Workflow
 } from 'lucide-react';
 import { ActiveTab } from '../types';
-
-const logoPath = '/src/assets/images/voltvision_logo_1783118335137.jpg';
+import logoPath from '../assets/images/voltvision_logo_1783118335137.jpg';
 
 interface SidebarProps {
   activeTab: ActiveTab;

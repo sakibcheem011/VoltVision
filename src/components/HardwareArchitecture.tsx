@@ -16,7 +16,7 @@ import {
   CheckCircle2,
   Info
 } from 'lucide-react';
-const schematicPlaceholder = '/src/assets/images/hardware_schematic_placeholder_1783116125150.jpg';
+import schematicPlaceholder from '../assets/images/hardware_schematic_placeholder_1783116125150.jpg';
 
 export default function HardwareArchitecture() {
   const hardwareComponents = [
