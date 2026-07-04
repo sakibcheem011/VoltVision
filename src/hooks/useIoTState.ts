@@ -22,12 +22,14 @@ export function useIoTState() {
     estimatedCostToday: 0
   });
 
+  const API_BASE = import.meta.env.VITE_API_URL || '';
+
   const fetchBackendData = useCallback(async () => {
     try {
       const [stateRes, usageRes, historyRes] = await Promise.all([
-        fetch('/api/state'),
-        fetch('/api/usage'),
-        fetch('/api/history')
+        fetch(`${API_BASE}/api/state`),
+        fetch(`${API_BASE}/api/usage`),
+        fetch(`${API_BASE}/api/history`)
       ]);
 
       if (stateRes.ok && usageRes.ok && historyRes.ok) {
@@ -98,7 +100,7 @@ export function useIoTState() {
   // API Call: Toggle device ON/OFF
   const toggleDevice = useCallback(async (deviceId: string) => {
     try {
-      const res = await fetch('/api/device/toggle', {
+      const res = await fetch(`${API_BASE}/api/device/toggle`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ deviceId })
@@ -127,7 +129,7 @@ export function useIoTState() {
   // Set occupancy manually
   const toggleRoomOccupancy = useCallback(async (roomId: string) => {
     try {
-      const res = await fetch('/api/room/occupancy', {
+      const res = await fetch(`${API_BASE}/api/room/occupancy`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ roomId })
@@ -155,7 +157,7 @@ export function useIoTState() {
   // API Call: Resolve alert
   const resolveAlert = useCallback(async (alertId: string) => {
     try {
-      const res = await fetch('/api/alert/resolve', {
+      const res = await fetch(`${API_BASE}/api/alert/resolve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ alertId })
@@ -182,7 +184,7 @@ export function useIoTState() {
   // Notifications API helpers
   const markNotificationRead = useCallback(async (id: string) => {
     try {
-      const res = await fetch('/api/notifications/read', {
+      const res = await fetch(`${API_BASE}/api/notifications/read`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ notificationId: id })
@@ -207,7 +209,7 @@ export function useIoTState() {
 
   const markAllNotificationsRead = useCallback(async () => {
     try {
-      const res = await fetch('/api/notifications/read', {
+      const res = await fetch(`${API_BASE}/api/notifications/read`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ all: true })

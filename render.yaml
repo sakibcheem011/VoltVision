@@ -1,0 +1,60 @@
+services:
+  # 1. Backend Web Service
+  - type: web
+    name: voltvision-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 4000
+      # Allow the frontend to access the backend APIs
+      - key: FRONTEND_URL
+        fromService:
+          type: web
+          name: voltvision-frontend
+          envVarKey: RENDER_EXTERNAL_URL
+
+  # 2. Frontend Static Site
+  - type: web
+    name: voltvision-frontend
+    env: static
+    rootDir: .
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+    envVars:
+      # Inject the backend's external URL into the frontend build
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: voltvision-backend
+          envVarKey: RENDER_EXTERNAL_URL
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # 3. Discord Bot Background Worker
+  - type: worker
+    name: voltvision-discord-bot
+    env: node
+    rootDir: discord-bot
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      # These must be set manually in the Render dashboard
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: CLIENT_ID
+        sync: false
+      # Connect the bot to the live backend
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: voltvision-backend
+          envVarKey: RENDER_EXTERNAL_URL

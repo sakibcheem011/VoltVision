@@ -20,9 +20,13 @@ initSocket(server);
 
 // Middlewares
 app.use(helmet());
-app.use(cors());
+const allowedOrigin = process.env.FRONTEND_URL || '*';
+app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(express.json());
 app.use(morgan('dev'));
+
+// Health check for Render
+app.get('/health', (req, res) => res.status(200).json({ status: 'healthy' }));
 
 // Routes
 app.use('/api', apiRoutes);
